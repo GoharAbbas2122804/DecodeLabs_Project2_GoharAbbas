@@ -1,5 +1,6 @@
-import { PrismaClient, Role, PostStatus } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { Role, PostStatus } from '../src/types';
 
 const prisma = new PrismaClient();
 
@@ -97,7 +98,7 @@ async function main() {
       userId: admin.id,
       title: 'Drafting Synaptic Protocols for Project 3',
       content:
-        'This is a internal draft outlining future protocol extensions. Unauthenticated users cannot view this content.',
+        'This is an internal draft outlining future protocol extensions. Unauthenticated users cannot view this content.',
       status: PostStatus.DRAFT,
     },
   });

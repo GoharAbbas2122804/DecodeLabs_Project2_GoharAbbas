@@ -1,4 +1,12 @@
-import { Role } from '@prisma/client';
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
+
+export enum PostStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+}
 
 export interface AuthPayload {
   userId: string;

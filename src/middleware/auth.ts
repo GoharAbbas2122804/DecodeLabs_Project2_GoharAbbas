@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { Role } from '@prisma/client';
 import { env } from '../config/env';
 import { ApiError } from '../utils/apiError';
-import { AuthPayload } from '../types';
+import { AuthPayload, Role } from '../types';
 
 export const requireAuth = (req: Request, _res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;

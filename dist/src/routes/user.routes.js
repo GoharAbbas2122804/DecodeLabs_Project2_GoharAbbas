@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_controller_1 = require("../controllers/user.controller");
+const post_controller_1 = require("../controllers/post.controller");
+const validate_1 = require("../middleware/validate");
+const schemas_1 = require("../validation/schemas");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.get('/', (0, validate_1.validate)({ query: schemas_1.paginationQuerySchema }), user_controller_1.getUsersHandler);
+router.get('/:id', auth_1.optionalAuth, (0, validate_1.validate)({ params: schemas_1.uuidParamSchema }), user_controller_1.getUserByIdHandler);
+router.put('/:id', auth_1.requireAuth, (0, validate_1.validate)({ params: schemas_1.uuidParamSchema, body: schemas_1.updateUserSchema }), user_controller_1.updateUserHandler);
+router.delete('/:id', auth_1.requireAuth, (0, validate_1.validate)({ params: schemas_1.uuidParamSchema }), user_controller_1.deleteUserHandler);
+router.get('/:id/posts', auth_1.optionalAuth, (0, validate_1.validate)({ params: schemas_1.uuidParamSchema, query: schemas_1.paginationQuerySchema }), post_controller_1.getPostsByUserIdHandler);
+exports.default = router;

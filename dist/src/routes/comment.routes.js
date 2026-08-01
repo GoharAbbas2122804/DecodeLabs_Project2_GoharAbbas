@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const comment_controller_1 = require("../controllers/comment.controller");
+const validate_1 = require("../middleware/validate");
+const schemas_1 = require("../validation/schemas");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.delete('/:id', auth_1.requireAuth, (0, validate_1.validate)({ params: schemas_1.uuidParamSchema }), comment_controller_1.deleteCommentHandler);
+exports.default = router;

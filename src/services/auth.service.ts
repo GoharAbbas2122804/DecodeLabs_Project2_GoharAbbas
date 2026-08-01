@@ -1,10 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { Role } from '@prisma/client';
 import { prisma } from '../config/db';
 import { env } from '../config/env';
 import { ApiError } from '../utils/apiError';
-import { AuthPayload } from '../types';
+import { AuthPayload, Role } from '../types';
 
 export interface RegisterInput {
   email: string;
@@ -61,11 +60,11 @@ export class AuthService {
     const payload: AuthPayload = {
       userId: user.id,
       email: user.email,
-      role: user.role,
+      role: user.role as Role,
     };
 
     const token = jwt.sign(payload, env.JWT_SECRET, {
-      expiresIn: env.JWT_EXPIRES_IN,
+      expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
     });
 
     return { token, user };
@@ -90,11 +89,11 @@ export class AuthService {
     const payload: AuthPayload = {
       userId: user.id,
       email: user.email,
-      role: user.role,
+      role: user.role as Role,
     };
 
     const token = jwt.sign(payload, env.JWT_SECRET, {
-      expiresIn: env.JWT_EXPIRES_IN,
+      expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
     });
 
     // Omit passwordHash from return payload

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { PostStatus, Role } from '@prisma/client';
+import { PostStatus, Role } from '../types';
 
 // Generic UUID Parameter Schema
 export const uuidParamSchema = z.object({

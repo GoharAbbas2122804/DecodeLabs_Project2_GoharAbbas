@@ -1,10 +1,15 @@
 import { AuthPayload } from './index';
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: AuthPayload;
-      requestId?: string;
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: AuthPayload;
+    requestId?: string;
+  }
+}
+
+declare module 'express' {
+  interface Request {
+    user?: AuthPayload;
+    requestId?: string;
   }
 }
