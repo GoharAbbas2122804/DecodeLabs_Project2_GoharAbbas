@@ -1,0 +1,75 @@
+// Prisma Schema for Project 2: The Nervous System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(USER)
+  profile      Profile?
+  posts        Post[]
+  comments     Comment[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model Profile {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName String
+  lastName  String
+  bio       String?
+  avatarUrl String?
+}
+
+model Post {
+  id        String     @id @default(uuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  content   String
+  status    PostStatus @default(DRAFT)
+  comments  Comment[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([userId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([postId])
+  @@index([userId])
+  @@index([createdAt])
+}
